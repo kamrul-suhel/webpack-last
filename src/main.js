@@ -1,7 +1,14 @@
+require('webpack-hot-middleware/client')
 /**
  * Import React
  */
-import './App.js'
+// import './App.js'
+
+/**
+ * Import Html file
+ */
+
+import './index.html'
 
 
 /**

@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 
 module.exports = {
     mode: "development",
@@ -31,6 +32,26 @@ module.exports = {
             },
 
             {
+              test: /\.html/,
+              use:[
+                  {
+                      loader: "file-loader",
+                      options: {
+                          name: "[name].html"
+                      }
+                  },
+                  {
+                      loader: "extract-loader"
+                  },
+                  {
+                      loader: "html-loader",
+                      options: {
+                      }
+                  }
+              ]
+            },
+
+            {
                 test: /\.s[ac]ss$/i,
                 use: [
                     {
@@ -44,7 +65,23 @@ module.exports = {
                         loader: 'sass-loader',
                     }
                 ],
+            },
+
+            {
+                test: /\.(jpg|jpeg|gif|png)/,
+                use:[
+                    {
+                        loader: "file-loader",
+                        options: {
+                            name:"assets/images/[name]-[hash:8].[ext]"
+                        }
+                    }
+                ]
             }
         ]
-    }
+    },
+
+    plugins: [
+        new webpack.HotModuleReplacementPlugin()
+    ]
 }
