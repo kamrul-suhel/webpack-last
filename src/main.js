@@ -1,4 +1,4 @@
-require('webpack-hot-middleware/client')
+require('webpack-hot-middleware/client?reload=true')
 /**
  * Import React
  */

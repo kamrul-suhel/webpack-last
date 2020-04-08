@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
     mode: "development",
@@ -17,7 +18,7 @@ module.exports = {
         hot: true,
         overlay:true,
         stats:{
-            color: true
+            colors: true
         }
     },
 
@@ -34,15 +35,6 @@ module.exports = {
             {
               test: /\.html/,
               use:[
-                  {
-                      loader: "file-loader",
-                      options: {
-                          name: "[name].html"
-                      }
-                  },
-                  {
-                      loader: "extract-loader"
-                  },
                   {
                       loader: "html-loader",
                       options: {
@@ -82,6 +74,9 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new HtmlWebpackPlugin({
+            template: "./src/index.html"
+        })
     ]
 }
