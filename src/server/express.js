@@ -30,6 +30,6 @@ const staticMiddleware = express.static('build')
 server.use(staticMiddleware)
 
 
-server.listen(3001, () => {
+server.listen(3000, () => {
     console.log('server llistning')
 })

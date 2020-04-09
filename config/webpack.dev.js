@@ -4,20 +4,20 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
     mode: "development",
-    entry:[
+    entry: [
         "./src/main.js"
     ],
 
     output: {
         filename: "[name]-bundle.js",
-        path: path.resolve(__dirname,"../build")
+        path: path.resolve(__dirname, "../build")
     },
 
     devServer: {
         contentBase: "build",
         hot: true,
-        overlay:true,
-        stats:{
+        overlay: true,
+        stats: {
             colors: true
         }
     },
@@ -27,20 +27,21 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader"
-                }
+                use: [
+                    {
+                        loader: "babel-loader"
+                    }
+                ]
             },
 
             {
-              test: /\.html/,
-              use:[
-                  {
-                      loader: "html-loader",
-                      options: {
-                      }
-                  }
-              ]
+                test: /\.html/,
+                use: [
+                    {
+                        loader: "html-loader",
+                        options: {}
+                    }
+                ]
             },
 
             {
@@ -61,16 +62,22 @@ module.exports = {
 
             {
                 test: /\.(jpg|jpeg|gif|png)/,
-                use:[
+                use: [
                     {
                         loader: "file-loader",
                         options: {
-                            name:"assets/images/[name]-[hash:8].[ext]"
+                            name: "assets/images/[name]-[hash:8].[ext]"
                         }
                     }
                 ]
             }
         ]
+    },
+
+    resolve: {
+        alias: {
+            'react-dom': '@hot-loader/react-dom',
+        },
     },
 
     plugins: [
