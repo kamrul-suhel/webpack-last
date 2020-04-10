@@ -31,5 +31,5 @@ server.use(staticMiddleware)
 
 
 server.listen(3000, () => {
-    console.log('server llistning')
+    console.log('server Listing : 3000')
 })

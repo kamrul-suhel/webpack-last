@@ -12,6 +12,7 @@ const Counter = () => {
     return (
         <div>
             <img src={images.Image2}/>
+            <span>Something  change</span>
             <h3 onClick={()=> handleCount()}>asd Counter component</h3>
             <h4>{counter}</h4>
         </div>

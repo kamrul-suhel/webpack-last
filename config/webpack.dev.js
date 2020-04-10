@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
     mode: "development",
     entry: [
+        "react-hot-loader/patch",
         "./src/main.js"
     ],
 
@@ -21,6 +22,8 @@ module.exports = {
             colors: true
         }
     },
+
+    devtool: "source-map",
 
     module: {
         rules: [

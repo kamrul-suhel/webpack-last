@@ -1,4 +1,4 @@
-import { AppContainer } from 'react-hot-loader'
+import {AppContainer} from 'react-hot-loader'
 import React, {useState} from 'react'
 import ReactDOM from 'react-dom'
 import Counter from "./components/Counter";
@@ -14,7 +14,7 @@ const App = () => {
     }
     return (
         <div onClick={() => handleClick()}>
-            <h2>React test live change data</h2>
+            <h2>React change t live change data</h2>
             <h4>{counter}</h4>
 
             <Counter/>
@@ -26,9 +26,18 @@ function render(Component){
     ReactDOM.render(
         <AppContainer>
             <Component/>
-        </AppContainer>,
+        </AppContainer>
+        ,
         document.getElementById('root')
     )
 }
 
 render(App)
+
+if (module.hot) {
+    console.log('module hot is enable:', module)
+    module.hot.accept('./components/Counter.js', () => {
+        const newCounter = require('./components/Counter.js').default
+        render(newCounter)
+    });
+}
