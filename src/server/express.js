@@ -2,7 +2,7 @@ import express from 'express'
 import path from 'path'
 
 import webpack from 'webpack'
-import config from '../../config/webpack.dev'
+import config from '../../config/webpack/client/dev'
 
 const compiler = webpack(config)
 import webpackDevMiddleware from 'webpack-dev-middleware'
@@ -26,8 +26,13 @@ server.use(hotMiddleware)
 /**
  * Static middleware
  */
-const staticMiddleware = express.static('build')
-server.use(staticMiddleware)
+// const staticMiddleware = express.static('build')
+// server.use(staticMiddleware)
+
+const gzipMiddleware = require('express-static-gzip')
+server.use(gzipMiddleware("build", {
+    enableBrotli: true
+}))
 
 
 server.listen(3000, () => {

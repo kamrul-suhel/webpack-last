@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const BundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
     mode: "development",
@@ -11,7 +12,7 @@ module.exports = {
 
     output: {
         filename: "[name]-bundle.js",
-        path: path.resolve(__dirname, "../build")
+        path: path.resolve(__dirname, "../../../build")
     },
 
     devServer: {
@@ -20,6 +21,19 @@ module.exports = {
         overlay: true,
         stats: {
             colors: true
+        }
+    },
+
+    optimization: {
+        splitChunks: {
+            chunks: "all",
+            cacheGroups: {
+                vendor:{
+                    name: "vendor",
+                    chunks: "initial",
+                    minChunks: 2
+                }
+            }
         }
     },
 
@@ -93,6 +107,10 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             template: "./src/index.html"
+        }),
+
+        new BundleAnalyzer({
+            generateStatsFile: true
         })
     ]
 }

@@ -1,21 +1,43 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const optimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
-const MinifyWebPackPlugin = require("babel-minify-webpack-plugin")
-const UglifyJSWebpackPlugin = require('uglifyjs-webpack-plugin')
+const BundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
-    mode: "production",
+    mode: "development",
     entry: [
+        "react-hot-loader/patch",
         "./src/main.js"
     ],
 
     output: {
         filename: "[name]-bundle.js",
-        path: path.resolve(__dirname, "../build")
+        path: path.resolve(__dirname, "../../../build")
     },
+
+    devServer: {
+        contentBase: "build",
+        hot: true,
+        overlay: true,
+        stats: {
+            colors: true
+        }
+    },
+
+    optimization: {
+        splitChunks: {
+            chunks: "all",
+            cacheGroups: {
+                vendor:{
+                    name: "vendor",
+                    chunks: "initial",
+                    minChunks: 2
+                }
+            }
+        }
+    },
+
+    devtool: "source-map",
 
     module: {
         rules: [
@@ -43,11 +65,14 @@ module.exports = {
                 test: /\.s[ac]ss$/i,
                 use: [
                     {
-                        loader: MiniCssExtractPlugin.loader
+                        loader: "style-loader"
                     },
 
                     {
-                        loader: "css-loader"
+                        loader: "css-loader",
+                        options: {
+                            sourceMap: true
+                        }
                     },
                     {
                         loader: 'sass-loader'
@@ -79,21 +104,13 @@ module.exports = {
     },
 
     plugins: [
-        new optimizeCssAssetsWebpackPlugin(),
-        new MiniCssExtractPlugin({
-            filename:"styles-[contenthash].css"
-        }),
+        new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             template: "./src/index.html"
         }),
-        new webpack.DefinePlugin({
-            "process.env": {
-                NODE_ENV: JSON.stringify("production")
-            }
-        }),
 
-        // new MinifyWebPackPlugin(),
-        new UglifyJSWebpackPlugin()
-
+        new BundleAnalyzer({
+            generateStatsFile: true
+        })
     ]
 }
