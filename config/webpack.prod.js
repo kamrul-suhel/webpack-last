@@ -1,11 +1,14 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const optimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
+const MinifyWebPackPlugin = require("babel-minify-webpack-plugin")
+const UglifyJSWebpackPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
-    mode: "development",
+    mode: "production",
     entry: [
-        "react-hot-loader/patch",
         "./src/main.js"
     ],
 
@@ -13,17 +16,6 @@ module.exports = {
         filename: "[name]-bundle.js",
         path: path.resolve(__dirname, "../build")
     },
-
-    devServer: {
-        contentBase: "build",
-        hot: true,
-        overlay: true,
-        stats: {
-            colors: true
-        }
-    },
-
-    devtool: "source-map",
 
     module: {
         rules: [
@@ -51,14 +43,11 @@ module.exports = {
                 test: /\.s[ac]ss$/i,
                 use: [
                     {
-                        loader: "style-loader"
+                        loader: MiniCssExtractPlugin.loader
                     },
 
                     {
-                        loader: "css-loader",
-                        options: {
-                            sourceMap: true
-                        }
+                        loader: "css-loader"
                     },
                     {
                         loader: 'sass-loader'
@@ -90,9 +79,21 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
+        new optimizeCssAssetsWebpackPlugin(),
+        new MiniCssExtractPlugin({
+            filename:"styles-[contenthash].css"
+        }),
         new HtmlWebpackPlugin({
             template: "./src/index.html"
-        })
+        }),
+        new webpack.DefinePlugin({
+            "process.env": {
+                NODE_ENV: JSON.stringify("production")
+            }
+        }),
+
+        // new MinifyWebPackPlugin(),
+        new UglifyJSWebpackPlugin()
+
     ]
 }

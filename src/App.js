@@ -13,10 +13,7 @@ const App = () => {
         })
     }
     return (
-        <div onClick={() => handleClick()}>
-            <h2>React change t live change data</h2>
-            <h4>{counter}</h4>
-
+        <div>
             <Counter/>
         </div>
     )
@@ -35,7 +32,6 @@ function render(Component){
 render(App)
 
 if (module.hot) {
-    console.log('module hot is enable:', module)
     module.hot.accept('./components/Counter.js', () => {
         const newCounter = require('./components/Counter.js').default
         render(newCounter)

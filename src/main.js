@@ -2,7 +2,7 @@ require('webpack-hot-middleware/client?reload=true')
 /**
  * Import style
  */
-import './scss/index.scss'
+import './scss/styles.scss'
 
 /**
  * Import React

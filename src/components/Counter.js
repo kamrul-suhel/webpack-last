@@ -10,11 +10,14 @@ const Counter = () => {
         })
     }
     return (
-        <div>
-            <img src={images.Image2}/>
-            <span>Something  change</span>
-            <h3 onClick={()=> handleCount()}>asd Counter component</h3>
-            <h4>{counter}</h4>
+        <div className="card" onClick={()=> handleCount()}>
+            <div className="cardHeader">
+                <h2>Content Title Change Some more</h2>
+            </div>
+            <div className="cardContent">
+                <img src={images.LinkImage}/>
+                <h3 style={{textAlign:'center'}}>{counter}</h3>
+            </div>
         </div>
     )
 }
